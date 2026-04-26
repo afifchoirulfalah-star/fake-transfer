@@ -1,68 +1,91 @@
-function rupiah(x){
+function formatRupiah(angka) {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR"
-  }).format(x);
+  }).format(angka);
 }
 
-function randomRef(){
-  return "CEO" + Math.floor(Math.random()*1000000000);
+function generateRef() {
+  return "TRX" + Math.floor(Math.random() * 1000000000);
 }
 
-function mulaiTransfer(){
-
+function mulaiTransfer() {
   let rekening = document.getElementById("rekening").value;
-  let nama = document.getElementById("nama").value;
-  let bank = document.getElementById("bank").value;
   let nominal = document.getElementById("nominal").value;
 
-  if(!rekening || !nominal){
-    alert("Lengkapi data!");
+  if (!rekening || !nominal) {
+    alert("Isi dulu!");
     return;
   }
 
-  document.getElementById("progressBox").classList.remove("hidden");
+  document.getElementById("popup").style.display = "block";
+  let loadingText = document.getElementById("loadingText");
 
-  let text = document.getElementById("progressText");
+  loadingText.innerText = "Menghubungi server...";
 
-  // STEP 1
-  text.innerHTML = "Menghubungi server bank...";
-  
-  setTimeout(()=>{
-    text.innerHTML = "Verifikasi rekening tujuan...";
-    
-    setTimeout(()=>{
-      text.innerHTML = "Memproses transfer...";
-      
-      setTimeout(()=>{
-        sukses(rekening,nama,bank,nominal);
-      },1500);
+  setTimeout(() => {
+    loadingText.innerText = "Verifikasi rekening...";
 
-    },1500);
+    setTimeout(() => {
+      loadingText.innerText = "Mengirim dana...";
 
-  },1500);
+      setTimeout(() => {
+        selesaiTransfer(rekening, nominal);
+      }, 1200);
+
+    }, 1200);
+
+  }, 1200);
 }
 
-function sukses(rek,nama,bank,nominal){
+function selesaiTransfer(rekening, nominal) {
+  let ref = generateRef();
+  let waktu = new Date().toLocaleString();
 
-  document.getElementById("progressBox").classList.add("hidden");
+  let data = { rekening, nominal, ref, waktu };
 
-  let ref = randomRef();
+  let riwayat = JSON.parse(localStorage.getItem("riwayat")) || [];
+  riwayat.unshift(data);
+  localStorage.setItem("riwayat", JSON.stringify(riwayat));
 
-  document.getElementById("successBox").classList.remove("hidden");
+  tampilkanStruk(data, riwayat);
 
-  document.getElementById("detail").innerHTML = `
-    Rekening: ${rek}<br>
-    Nama: ${nama || "-"}<br>
-    Bank: ${bank}<br><br>
-    Nominal: <b>${rupiah(nominal)}</b><br><br>
-    No Referensi: ${ref}<br><br>
-    Status: BERHASIL 💸
+  // 🔊 SUARA SUKSES
+  let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
+  audio.play();
+}
+
+function tampilkanStruk(data, riwayat) {
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("pageForm").style.display = "none";
+  document.getElementById("pageStruk").style.display = "block";
+
+  document.getElementById("strukDetail").innerHTML = `
+    <div class="receipt">
+      <h3>BUKTI TRANSFER</h3>
+      <hr>
+
+      <p><b>Status:</b> BERHASIL</p>
+      <p><b>Dari:</b> CEO Sultan Global</p>
+      <p><b>Ke Rekening:</b> ${data.rekening}</p>
+      <p><b>Nominal:</b> ${formatRupiah(data.nominal)}</p>
+      <p><b>No Referensi:</b> ${data.ref}</p>
+      <p><b>Waktu:</b> ${data.waktu}</p>
+
+      <hr>
+      <p style="font-size:12px;">Transaksi berhasil diproses</p>
+    </div>
   `;
 
-  new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3").play();
-}
+  let html = "";
+  riwayat.slice(0,5).forEach(r => {
+    html += `
+      <div class="history-item">
+        <b>${formatRupiah(r.nominal)}</b><br>
+        <small>${r.rekening}</small>
+      </div>
+    `;
+  });
 
-function reset(){
-  location.reload();
+  document.getElementById("riwayat").innerHTML = html;
 }
