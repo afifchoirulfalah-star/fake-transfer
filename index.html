@@ -2,86 +2,109 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CEO Bank</title>
-
-  <!-- PENTING: LINK CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <title>Bank Hamba Allah - Transfer Saiki</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <main class="app-shell">
+    <section id="pageTransfer" class="phone" aria-labelledby="appTitle">
+      <header class="header">
+        <div class="statusbar">
+          <span id="jamHeader">09:41</span>
+          <span>LTE 100%</span>
+        </div>
 
-<div class="phone">
+        <div class="top-row">
+          <div>
+            <p class="eyebrow">Ndang Tranfer</p>
+            <h1 id="appTitle">Bank Hamba Allah</h1>
+          </div>
+          <div class="avatar" aria-hidden="true">CB</div>
+        </div>
+      </header>
 
-  <!-- HEADER -->
-  <div class="header">
-    <h1>CEO Bank</h1>
-    <p>Transfer Instan</p>
+      <div class="content">
+        <section class="card balance-card">
+          <div>
+            <p class="muted">Saldo tersedia</p>
+            <h2 id="saldo">Rp 999.999.999</h2>
+            <span class="account-mask">CEO Hamba Allah - 8888 0012</span>
+          </div>
+          <span class="sim-badge">Pengen ?</span>
+        </section>
+
+        <section class="card form-card">
+          <div class="section-title">
+            <h2>Transfer Dana</h2>
+            <span>Online</span>
+          </div>
+
+          <div class="notice">we wok de tok not anle tok de tok.</div>
+
+          <label for="rekening">Nomor rekening</label>
+          <input type="text" id="rekening" inputmode="numeric" autocomplete="off" placeholder="Contoh: 1234567890">
+
+          <label for="nama">Nama penerima</label>
+          <input type="text" id="nama" autocomplete="off" placeholder="Nama penerima">
+
+          <label for="bank">Bank tujuan</label>
+          <select id="bank">
+            <option>Bank Jateng</option>
+            <option>BCA</option>
+            <option>BRI</option>
+            <option>BNI</option>
+            <option>Mandiri</option>
+            <option>CIMB Niaga</option>
+            <option>Permata</option>
+          </select>
+
+          <label for="nominal">Nominal transfer</label>
+          <input type="number" id="nominal" inputmode="numeric" min="1000" placeholder="Masukkan nominal">
+
+          <button type="button" onclick="mulaiTransfer()">Transfer</button>
+          <p id="status" class="status" aria-live="polite"></p>
+        </section>
+      </div>
+    </section>
+
+    <section id="pageStruk" class="phone receipt-screen hidden" aria-labelledby="receiptTitle">
+      <header class="receipt-header">
+        <button type="button" class="icon-button" onclick="kembaliKeForm()" aria-label="Kembali">&lt;</button>
+        <h1 id="receiptTitle">Detail Transaksi</h1>
+        <span class="mini-badge">SIM</span>
+      </header>
+
+      <div class="content">
+        <section class="card success-card">
+          <div class="success-mark" aria-hidden="true">OK</div>
+          <p class="muted">Status transaksi</p>
+          <h2>Transfer Berhasil</h2>
+          <div id="strukDetail"></div>
+        </section>
+
+        <section class="card history-card">
+          <div class="section-title">
+            <h2>Riwayat transfer</h2>
+            <span>5 terbaru</span>
+          </div>
+          <div id="riwayat"></div>
+        </section>
+
+        <button type="button" class="secondary-button" onclick="kembaliKeForm()">Buat Prank Baru</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="popup" class="popup" role="dialog" aria-modal="true" aria-live="polite">
+    <div class="popup-box">
+      <div class="spinner" aria-hidden="true"></div>
+      <p id="loadingText">Memproses transfer...</p>
+      <small>CEO Bank nda</small>
+    </div>
   </div>
 
-  <div class="content">
-
-    <!-- CARD SALDO -->
-    <div class="card saldo">
-      <p>Saldo Anda</p>
-      <h2 id="saldo">Rp 999.999.999</h2>
-    </div>
-
-    <!-- FORM TRANSFER -->
-    <div id="pageForm" class="card form">
-
-      <label>Nomor Rekening</label>
-      <input type="text" id="rekening" placeholder="Masukkan nomor rekening">
-
-      <label>Nama Penerima</label>
-      <input type="text" id="nama" placeholder="Nama penerima">
-
-      <label>Bank Tujuan</label>
-      <select id="bank">
-        <option>BCA</option>
-        <option>BRI</option>
-        <option>BNI</option>
-        <option>Mandiri</option>
-      </select>
-
-      <label>Nominal Transfer</label>
-      <input type="number" id="nominal" placeholder="Masukkan nominal">
-
-      <button onclick="mulaiTransfer()">Transfer</button>
-
-      <p id="status"></p>
-    </div>
-
-  </div>
-</div>
-
-<!-- POPUP LOADING -->
-<div id="popup" class="popup">
-  <div class="popup-box">
-    <p id="loadingText">Memproses...</p>
-  </div>
-</div>
-
-<!-- HALAMAN STRUK -->
-<div id="pageStruk" class="phone hidden">
-
-  <div class="content">
-
-    <div class="card success">
-      <h2>✔ Transfer Berhasil</h2>
-      <div id="strukDetail"></div>
-    </div>
-
-    <div class="card">
-      <h3>Riwayat Transfer</h3>
-      <div id="riwayat"></div>
-    </div>
-
-  </div>
-</div>
-
-<!-- SCRIPT -->
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>
