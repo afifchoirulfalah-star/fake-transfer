@@ -337,7 +337,7 @@ button:active {
 }
 
 .success-card::after {
-  content: "SIMULASI";
+  content: "DINAS ARPUS";
   position: absolute;
   inset: 44% auto auto 50%;
   transform: translate(-50%, -50%) rotate(-18deg);
