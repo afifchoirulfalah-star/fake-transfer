@@ -125,3 +125,32 @@ button {
   max-width: 300px;
   margin: 150px auto;
 }
+/* STRUK */
+.receipt {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: left;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* RIWAYAT */
+.history-item {
+  background: #1e293b;
+  color: white;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 8px;
+}
