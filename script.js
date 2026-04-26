@@ -1,6 +1,6 @@
 const SALDO_KEY = "ceoBankSaldo";
 const RIWAYAT_KEY = "ceoBankRiwayat";
-const SALDO_AWAL = 999999999;
+const SALDO_AWAL = 199999999999;
 
 let saldo = Number(localStorage.getItem(SALDO_KEY)) || SALDO_AWAL;
 
@@ -107,7 +107,7 @@ function validasiForm() {
 
   if (nominal > saldo) {
     nominalEl.focus();
-    tampilStatus("Saldo simulasi tidak cukup.");
+    tampilStatus("Saldo tidak cukup (gak sah serakah)");
     return null;
   }
 
@@ -129,7 +129,7 @@ async function mulaiTransfer() {
   popupEl.classList.add("is-active");
 
   const tahapan = [
-    "Menghubungi server simulasi...",
+    "Menghubungi server tujuan...",
     "Memeriksa tujuan transfer...",
     "Membuat tampilan transaksi..."
   ];
@@ -171,14 +171,14 @@ function tampilkanStruk(data) {
   document.getElementById("strukDetail").innerHTML = `
     <div class="amount">${formatRupiah(data.nominal)}</div>
     <div class="details">
-      ${barisDetail("Dari", "CEO Sultan Global")}
+      ${barisDetail("Dari", "CEO YANG MENYAMAR")}
       ${barisDetail("Ke", escapeHtml(data.nama))}
       ${barisDetail("Bank", escapeHtml(data.bank))}
       ${barisDetail("Rekening", escapeHtml(data.rekening))}
       ${barisDetail("No. referensi", escapeHtml(data.ref))}
       ${barisDetail("Waktu", escapeHtml(data.waktu))}
     </div>
-    <p class="receipt-note">Dokumen ini hanya simulasi prank dan bukan bukti transaksi bank.</p>
+    <p class="receipt-note">Dokumen ini hanya simulasi prank cukup dibayangkan saja uangnya.</p>
   `;
 
   tampilkanRiwayat();
@@ -199,7 +199,7 @@ function tampilkanRiwayat() {
   const riwayatEl = document.getElementById("riwayat");
 
   if (!riwayat.length) {
-    riwayatEl.innerHTML = `<p class="muted">Belum ada riwayat simulasi.</p>`;
+    riwayatEl.innerHTML = `<p class="muted">Belum ada riwayat transfer.</p>`;
     return;
   }
 
