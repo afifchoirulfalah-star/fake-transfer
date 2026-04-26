@@ -1,81 +1,58 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0c2d6b;
+function formatRupiah(angka) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR"
+  }).format(angka);
 }
 
-.phone {
-  max-width: 380px;
-  margin: 20px auto;
-  background: #f1f5f9;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+function generateRef() {
+  return "TRX" + Math.floor(Math.random() * 1000000000);
 }
 
-.topbar {
-  background: #0c2d6b;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  font-weight: bold;
+function prosesTransfer() {
+  let bank = document.getElementById("bank").value;
+  let rekening = document.getElementById("rekening").value;
+  let nominal = document.getElementById("nominal").value;
+  let status = document.getElementById("status");
+
+  if (!rekening || !nominal) {
+    status.innerHTML = "Lengkapi data terlebih dahulu";
+    return;
+  }
+
+  status.innerHTML = "Menghubungi server...";
+
+  setTimeout(() => {
+    status.innerHTML = "Verifikasi rekening...";
+
+    setTimeout(() => {
+      let ref = generateRef();
+      tampilkanPopup(bank, rekening, nominal, ref);
+      status.innerHTML = "";
+    }, 1500);
+
+  }, 1500);
 }
 
-.content {
-  padding: 20px;
+function tampilkanPopup(bank, rekening, nominal, ref) {
+  let popup = document.getElementById("popup");
+  let text = document.getElementById("popupText");
+
+  text.innerHTML = `
+    Transfer ke ${bank}<br>
+    Rekening: ${rekening}<br><br>
+    Nominal: <b>${formatRupiah(nominal)}</b><br><br>
+    No. Referensi: ${ref}<br><br>
+    Status: <b>BERHASIL</b><br>
+    <small>Simulasi CEO 😄</small>
+  `;
+
+  popup.style.display = "block";
+
+  // suara (opsional)
+  new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3").play();
 }
 
-h3 {
-  margin-top: 0;
-}
-
-label {
-  font-size: 13px;
-  display: block;
-  margin-top: 10px;
-}
-
-input, select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 20px;
-  background: #0c2d6b;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-}
-
-#status {
-  text-align: center;
-  margin-top: 15px;
-  color: #0c2d6b;
-}
-
-/* POPUP */
-.popup {
-  display: none;
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.5);
-}
-
-.popup-box {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  max-width: 300px;
-  margin: 150px auto;
-  text-align: center;
+function tutupPopup() {
+  document.getElementById("popup").style.display = "none";
 }
