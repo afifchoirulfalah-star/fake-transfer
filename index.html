@@ -3,36 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CEO Mobile Banking</title>
+  <title>m-CEO Banking</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="app">
-  <div class="header">
-    <h2>CEO Bank</h2>
-    <p>Transfer Instan</p>
+<div class="phone">
+
+  <div class="topbar">
+    <span>m-CEO Banking</span>
   </div>
 
-  <div class="card">
+  <div class="content">
+    <h3>Transfer Antar Bank</h3>
+
+    <label>Bank Tujuan</label>
+    <select id="bank">
+      <option>BCA</option>
+      <option>BRI</option>
+      <option>BNI</option>
+      <option>Mandiri</option>
+    </select>
+
     <label>Nomor Rekening</label>
-    <input type="text" id="rekening" placeholder="Contoh: 1234567890">
+    <input type="text" id="rekening" placeholder="Masukkan rekening">
 
     <label>Nominal Transfer</label>
-    <input type="number" id="nominal" placeholder="Contoh: 1000000">
+    <input type="number" id="nominal" placeholder="Masukkan nominal">
 
-    <button onclick="prosesTransfer()">Transfer</button>
+    <button onclick="prosesTransfer()">Lanjut</button>
 
     <p id="status"></p>
   </div>
+
 </div>
 
 <!-- POPUP -->
 <div id="popup" class="popup">
-  <div class="popup-content">
-    <h3>✅ Transfer Berhasil</h3>
+  <div class="popup-box">
+    <h3>✔ Transaksi Berhasil</h3>
     <p id="popupText"></p>
-    <button onclick="tutupPopup()">Tutup</button>
+    <button onclick="tutupPopup()">OK</button>
   </div>
 </div>
 
