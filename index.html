@@ -1,13 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEO Bank</title>
+
+  <!-- PENTING: LINK CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
 <body>
 
-<!-- PAGE 1 -->
-<div id="pageForm" class="container">
-  <h1>CEO Bank</h1>
+<div class="phone">
 
-  <input id="rekening" placeholder="Nomor Rekening">
-  <input id="nominal" type="number" placeholder="Nominal">
+  <!-- HEADER -->
+  <div class="header">
+    <h1>CEO Bank</h1>
+    <p>Transfer Instan</p>
+  </div>
 
-  <button onclick="mulaiTransfer()">Transfer</button>
+  <div class="content">
+
+    <!-- CARD SALDO -->
+    <div class="card saldo">
+      <p>Saldo Anda</p>
+      <h2 id="saldo">Rp 999.999.999</h2>
+    </div>
+
+    <!-- FORM TRANSFER -->
+    <div id="pageForm" class="card form">
+
+      <label>Nomor Rekening</label>
+      <input type="text" id="rekening" placeholder="Masukkan nomor rekening">
+
+      <label>Nama Penerima</label>
+      <input type="text" id="nama" placeholder="Nama penerima">
+
+      <label>Bank Tujuan</label>
+      <select id="bank">
+        <option>BCA</option>
+        <option>BRI</option>
+        <option>BNI</option>
+        <option>Mandiri</option>
+      </select>
+
+      <label>Nominal Transfer</label>
+      <input type="number" id="nominal" placeholder="Masukkan nominal">
+
+      <button onclick="mulaiTransfer()">Transfer</button>
+
+      <p id="status"></p>
+    </div>
+
+  </div>
 </div>
 
 <!-- POPUP LOADING -->
@@ -17,15 +62,26 @@
   </div>
 </div>
 
-<!-- PAGE 2 (STRUK) -->
-<div id="pageStruk" class="container" style="display:none;">
-  <h2>✔ Bukti Transfer</h2>
+<!-- HALAMAN STRUK -->
+<div id="pageStruk" class="phone hidden">
 
-  <div id="strukDetail"></div>
+  <div class="content">
 
-  <h3>Riwayat Transfer</h3>
-  <div id="riwayat"></div>
+    <div class="card success">
+      <h2>✔ Transfer Berhasil</h2>
+      <div id="strukDetail"></div>
+    </div>
+
+    <div class="card">
+      <h3>Riwayat Transfer</h3>
+      <div id="riwayat"></div>
+    </div>
+
+  </div>
 </div>
 
+<!-- SCRIPT -->
 <script src="script.js"></script>
+
 </body>
+</html>
