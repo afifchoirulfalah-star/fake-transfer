@@ -1,68 +1,31 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CEO Bank</title>
-  <link rel="stylesheet" href="style.css">
-</head>
 <body>
 
-<div class="phone">
+<!-- PAGE 1 -->
+<div id="pageForm" class="container">
+  <h1>CEO Bank</h1>
 
-  <div class="header">
-    CEO Bank
+  <input id="rekening" placeholder="Nomor Rekening">
+  <input id="nominal" type="number" placeholder="Nominal">
+
+  <button onclick="mulaiTransfer()">Transfer</button>
+</div>
+
+<!-- POPUP LOADING -->
+<div id="popup" class="popup">
+  <div class="popup-box">
+    <p id="loadingText">Memproses...</p>
   </div>
+</div>
 
-  <div class="content">
+<!-- PAGE 2 (STRUK) -->
+<div id="pageStruk" class="container" style="display:none;">
+  <h2>✔ Bukti Transfer</h2>
 
-    <div class="card saldo">
-      <p>Saldo Tersedia</p>
-      <h2>Rp 9.999.999.999</h2>
-      <span>∞ Unlimited</span>
-    </div>
+  <div id="strukDetail"></div>
 
-    <h3>Transfer Instan</h3>
-
-    <div class="form">
-
-      <label>Nomor Rekening</label>
-      <input id="rekening" placeholder="Contoh: 1234567890">
-
-      <label>Nama Penerima</label>
-      <input id="nama" placeholder="Nama penerima">
-
-      <label>Bank Tujuan</label>
-      <select id="bank">
-        <option>BCA</option>
-        <option>BRI</option>
-        <option>BNI</option>
-        <option>Mandiri</option>
-      </select>
-
-      <label>Nominal Transfer</label>
-      <input id="nominal" type="number" placeholder="Contoh: 1000000">
-
-      <button onclick="mulaiTransfer()">Transfer Sekarang</button>
-
-    </div>
-
-    <!-- PROGRESS -->
-    <div id="progressBox" class="card hidden">
-      <h3>Memproses Transfer</h3>
-      <p id="progressText">Menghubungi server...</p>
-    </div>
-
-    <!-- SUCCESS -->
-    <div id="successBox" class="card hidden success">
-      <h3>✅ Transfer Berhasil</h3>
-      <p id="detail"></p>
-      <button onclick="reset()">Selesai</button>
-    </div>
-
-  </div>
+  <h3>Riwayat Transfer</h3>
+  <div id="riwayat"></div>
 </div>
 
 <script src="script.js"></script>
 </body>
-</html>
