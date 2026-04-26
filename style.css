@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -5,14 +9,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh; /* FIX dari 100vh */
 }
 
-/* CONTAINER FIX (INI YANG BIKIN SIMETRIS) */
+/* PHONE CONTAINER */
 .phone {
   width: 100%;
   max-width: 380px;
-  background: transparent;
 }
 
 /* HEADER */
@@ -54,6 +57,7 @@ label {
   color: #ddd;
 }
 
+/* INPUT FIX FINAL */
 input, select {
   width: 100%;
   padding: 12px;
@@ -61,11 +65,16 @@ input, select {
   border-radius: 10px;
   border: none;
   outline: none;
-  box-sizing: border-box; /* INI PENTING BIAR SIMETRIS */
 }
 
-/* BUTTON */
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #22c55e;
+}
+
+/* BUTTON FIX FINAL */
 button {
+  width: 100%;
   margin-top: 20px;
   padding: 14px;
   border-radius: 12px;
@@ -73,40 +82,10 @@ button {
   background: linear-gradient(90deg, #22c55e, #16a34a);
   color: white;
   font-size: 16px;
+  cursor: pointer;
 }
 
-/* HIDDEN */
-.hidden {
-  display: none;
-}
-
-/* SUCCESS */
-.success {
-  text-align: center;
-}
-.container {
-  max-width: 360px;
-  margin: 50px auto;
-  text-align: center;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 10px;
-  border: none;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 10px;
-}
-
+/* POPUP */
 .popup {
   display: none;
   position: fixed;
@@ -125,6 +104,7 @@ button {
   max-width: 300px;
   margin: 150px auto;
 }
+
 /* STRUK */
 .receipt {
   background: white;
