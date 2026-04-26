@@ -1,58 +1,68 @@
-function formatRupiah(angka) {
+function rupiah(x){
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR"
-  }).format(angka);
+  }).format(x);
 }
 
-function generateRef() {
-  return "TRX" + Math.floor(Math.random() * 1000000000);
+function randomRef(){
+  return "CEO" + Math.floor(Math.random()*1000000000);
 }
 
-function prosesTransfer() {
-  let bank = document.getElementById("bank").value;
+function mulaiTransfer(){
+
   let rekening = document.getElementById("rekening").value;
+  let nama = document.getElementById("nama").value;
+  let bank = document.getElementById("bank").value;
   let nominal = document.getElementById("nominal").value;
-  let status = document.getElementById("status");
 
-  if (!rekening || !nominal) {
-    status.innerHTML = "Lengkapi data terlebih dahulu";
+  if(!rekening || !nominal){
+    alert("Lengkapi data!");
     return;
   }
 
-  status.innerHTML = "Menghubungi server...";
+  document.getElementById("progressBox").classList.remove("hidden");
 
-  setTimeout(() => {
-    status.innerHTML = "Verifikasi rekening...";
+  let text = document.getElementById("progressText");
 
-    setTimeout(() => {
-      let ref = generateRef();
-      tampilkanPopup(bank, rekening, nominal, ref);
-      status.innerHTML = "";
-    }, 1500);
+  // STEP 1
+  text.innerHTML = "Menghubungi server bank...";
+  
+  setTimeout(()=>{
+    text.innerHTML = "Verifikasi rekening tujuan...";
+    
+    setTimeout(()=>{
+      text.innerHTML = "Memproses transfer...";
+      
+      setTimeout(()=>{
+        sukses(rekening,nama,bank,nominal);
+      },1500);
 
-  }, 1500);
+    },1500);
+
+  },1500);
 }
 
-function tampilkanPopup(bank, rekening, nominal, ref) {
-  let popup = document.getElementById("popup");
-  let text = document.getElementById("popupText");
+function sukses(rek,nama,bank,nominal){
 
-  text.innerHTML = `
-    Transfer ke ${bank}<br>
-    Rekening: ${rekening}<br><br>
-    Nominal: <b>${formatRupiah(nominal)}</b><br><br>
-    No. Referensi: ${ref}<br><br>
-    Status: <b>BERHASIL</b><br>
-    <small>Simulasi CEO 😄</small>
+  document.getElementById("progressBox").classList.add("hidden");
+
+  let ref = randomRef();
+
+  document.getElementById("successBox").classList.remove("hidden");
+
+  document.getElementById("detail").innerHTML = `
+    Rekening: ${rek}<br>
+    Nama: ${nama || "-"}<br>
+    Bank: ${bank}<br><br>
+    Nominal: <b>${rupiah(nominal)}</b><br><br>
+    No Referensi: ${ref}<br><br>
+    Status: BERHASIL 💸
   `;
 
-  popup.style.display = "block";
-
-  // suara (opsional)
   new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3").play();
 }
 
-function tutupPopup() {
-  document.getElementById("popup").style.display = "none";
+function reset(){
+  location.reload();
 }
