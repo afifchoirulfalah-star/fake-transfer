@@ -1,4 +1,4 @@
-const SALDO_KEY = "ceoBankSaldo";
+const SALDO_KEY = "bankHambaAllahSaldoV2";
 const RIWAYAT_KEY = "ceoBankRiwayat";
 const SALDO_AWAL = 199999999999;
 
@@ -15,6 +15,8 @@ const namaEl = document.getElementById("nama");
 const bankEl = document.getElementById("bank");
 const nominalEl = document.getElementById("nominal");
 const jamHeaderEl = document.getElementById("jamHeader");
+
+let audioContext = null;
 
 updateSaldo();
 updateJamHeader();
@@ -34,6 +36,78 @@ function formatRupiah(angka) {
     currency: "IDR",
     maximumFractionDigits: 0
   }).format(angka).replace("Rp", "Rp ");
+}
+
+function siapkanSuaraNotifikasi() {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+  if (AudioContextClass && !audioContext) {
+    audioContext = new AudioContextClass();
+  }
+
+  if (audioContext && audioContext.state === "suspended") {
+    audioContext.resume();
+  }
+
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    if (typeof window.speechSynthesis.resume === "function") {
+      window.speechSynthesis.resume();
+    }
+  }
+}
+
+function bunyiNotifikasiBerhasil() {
+  if (!audioContext) return Promise.resolve();
+
+  const now = audioContext.currentTime;
+  const masterGain = audioContext.createGain();
+
+  masterGain.gain.setValueAtTime(0.001, now);
+  masterGain.gain.exponentialRampToValueAtTime(0.22, now + 0.02);
+  masterGain.gain.exponentialRampToValueAtTime(0.001, now + 0.46);
+  masterGain.connect(audioContext.destination);
+
+  [
+    { frequency: 880, start: 0, duration: 0.12 },
+    { frequency: 1175, start: 0.16, duration: 0.18 }
+  ].forEach((tone) => {
+    const oscillator = audioContext.createOscillator();
+    const toneGain = audioContext.createGain();
+    const start = now + tone.start;
+    const end = start + tone.duration;
+
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(tone.frequency, start);
+    toneGain.gain.setValueAtTime(0.001, start);
+    toneGain.gain.exponentialRampToValueAtTime(1, start + 0.02);
+    toneGain.gain.exponentialRampToValueAtTime(0.001, end);
+    oscillator.connect(toneGain);
+    toneGain.connect(masterGain);
+    oscillator.start(start);
+    oscillator.stop(end + 0.03);
+  });
+
+  return new Promise((resolve) => setTimeout(resolve, 520));
+}
+
+function ucapkanTransferSuccessful() {
+  if (!window.speechSynthesis || typeof SpeechSynthesisUtterance === "undefined") {
+    return;
+  }
+
+  const ucapan = new SpeechSynthesisUtterance("Transfer successful");
+
+  ucapan.lang = "en-US";
+  ucapan.rate = 0.9;
+  ucapan.pitch = 1;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(ucapan);
+}
+
+async function mainkanNotifikasiTransfer() {
+  await bunyiNotifikasiBerhasil();
+  ucapkanTransferSuccessful();
 }
 
 function updateSaldo() {
@@ -125,6 +199,7 @@ async function mulaiTransfer() {
     return;
   }
 
+  siapkanSuaraNotifikasi();
   tampilStatus("");
   popupEl.classList.add("is-active");
 
@@ -157,6 +232,7 @@ function selesaiTransfer(dataForm) {
 
   simpanRiwayat(data);
   tampilkanStruk(data);
+  mainkanNotifikasiTransfer();
 
   if ("vibrate" in navigator) {
     navigator.vibrate(40);
